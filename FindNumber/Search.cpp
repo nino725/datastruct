@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ int BinarySearch(vector<int>& arr, int target);
 struct IndexItem{
     int maxNum;
     int start;
-}
+};
 
 int main() {
     cout<<"您想要自己输入数据还是系统生成？"<<endl;
@@ -89,4 +90,12 @@ int BinarySearch(vector<int>& arr, int target){
         cnt++;
     }
     return -1;
+}
+
+IndexItem* createIndexTable(vector<int> arr, int n, int &b){
+    int s = ceil(sqrt(n)); //向上取整  
+
+    b = ceil((double)n / s);
+
+    
 }
