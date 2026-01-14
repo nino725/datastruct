@@ -4,6 +4,10 @@
 #include <cmath>
 
 using namespace std;
+struct IndexItem{
+    int maxNum;
+    int start;
+};
 
 //记录查找次数
 int cnt;
@@ -18,10 +22,8 @@ int BinarySearch(vector<int>& arr, int target);
 /*
 分块查找 总体二分，局部顺序
 */
-struct IndexItem{
-    int maxNum;
-    int start;
-};
+int FindMax(vector<int> arr,int start, int end);
+IndexItem* createIndexTable(vector<int> arr, int n, int &b);
 
 int main() {
     cout<<"您想要自己输入数据还是系统生成？"<<endl;
@@ -38,7 +40,7 @@ int main() {
     cout<<"请输入你要查找的元素:"<<endl;
     int val;
     cin>>val;
-    int res = (Sequentialsearch(arr,val);
+    int res = Sequentialsearch(arr,val);
     if(res == -1){
         cout<<"您查找的元素不存在"<<endl;
     }else{
@@ -92,10 +94,56 @@ int BinarySearch(vector<int>& arr, int target){
     return -1;
 }
 
+int FindMax(vector<int> arr,int start, int end){
+    int ans = 0;
+    for(int i = start; i < end; i++){
+        ans = max(arr[i],ans);
+    }
+    return ans;
+}
+
 IndexItem* createIndexTable(vector<int> arr, int n, int &b){
-    int s = ceil(sqrt(n)); //向上取整  
+    int s = ceil(sqrt(n)); //向上取整  块的大小
 
     b = ceil((double)n / s);
 
-    
+    IndexItem* idxTable = new IndexItem[b];
+
+    for(int i = 0; i < b; i++){
+        int start = i*s;
+        int end = min(start + s, n);
+
+        idxTable[i].start = start;
+        idxTable[i].maxNum = FindMax(arr,start,end);
+    }
+    return idxTable;
+}
+
+int BlockSearch(vector<int> arr, IndexItem* idxTable, int val, int idx_size){
+    cnt = 0;
+    int left = 0, right = idx_size - 1;
+    int blockIndex = -1; 
+    int n = arr.size();
+    int s = ceil(sqrt(n));
+    while(right >= left){
+        cnt++;
+        int mid = left + (right - left) / 2;
+        if(idxTable[mid].maxNum < val){
+            left = mid + 1;
+        }else{
+            blockIndex = mid;
+            right = mid - 1;
+        }
+    }
+
+    if(blockIndex == -1)return -1;
+    int start = idxTable[blockIndex].start;
+    int end = min(start+s,n);
+    for(int i = start; i < end; i++){
+        cnt++;
+        if(arr[i] == val){
+            return i;
+        }
+    }
+    return -1;
 }
