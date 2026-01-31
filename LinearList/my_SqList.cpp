@@ -12,6 +12,8 @@ struct SqList{
 };
 void initList(SqList &L);
 bool insertSqList(SqList &L, int i, int e);
+int findVal(SqList L, int val);
+bool deleteSqList(SqList& L, int e);
 
 //∂ØÃ¨∑÷≈‰
 struct SeqList{
@@ -19,6 +21,9 @@ struct SeqList{
     int length;
     int MaxSize;
 };
+void initSeqList(SeqList &L);
+bool increaseSeqList(SeqList& L);
+bool insertSeqList(SeqList& L, int i, int e);
 
 int main(){
     return 0;
@@ -43,6 +48,27 @@ bool insertSqList(SqList &L, int i, int e){
     }
     L.data[i-1] = e;
     L.length++;
+    return true;
+}
+
+int findVal(SqList L, int val){
+    for(int i = 0; i < L.length; i++){
+        if(L.data[i] == val){
+            return i + 1;
+        }
+    }
+    return -1;
+}
+
+bool deleteSqList(SqList& L, int e){
+    int i = findVal(L,e);
+    if(i == -1){
+        return false;
+    }
+    for(int j = i; j <= L.length; j++){
+        L.data[j-1] = L.data[j];
+    }
+    L.length--;
     return true;
 }
     
@@ -80,3 +106,4 @@ bool insertSeqList(SeqList& L, int i, int e){
     L.length++;
     return true;
 }
+
