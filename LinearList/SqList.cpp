@@ -60,3 +60,33 @@ bool ListDelete(SqList& L, int i, ElemType& e){
     L.length--;
     return true;
 }
+
+
+//一.返回最小，并用最后替代
+bool deleteMinNum(SqList& L,ElemType& e){
+    if(L.length == 0){
+        return false;
+    }
+    int flag = 0;
+    for(int i = 0; i < L.length; i++){
+        if(L.data[i] < L.data[flag]){
+            flag = i;
+        }
+    }
+    e = L.data[flag];
+    L.data[flag] = L.data[L.length - 1];
+    return true;
+}
+
+//二.逆序排列
+bool reverseNum(SqList& L){
+    if(L.length == 0){
+        return false;
+    }
+    for(int i = 0; i < L.length / 2; i++){
+        ElemType temp = L.data[i];
+        L.data[i] = L.data[L.length - i - 1];
+        L.data[L.length - i - 1] = temp;
+    }
+    return true;
+}
