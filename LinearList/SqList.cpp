@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #define MaxSize 50
@@ -164,3 +165,86 @@ bool merge(SqList P, SqList Q,SqList& S){
     }
     return true;
 }
+
+//7
+bool reverseNum(SqList& L,int l,int r){
+    if(l > r){
+        return false;
+    }
+    for(int i = 0; i < (r - l + 1) / 2; i++){
+        ElemType temp = L.data[i + l];
+        L.data[i + l] = L.data[r - i];
+        L.data[r - i] = temp;
+    }
+    return true;
+}
+
+bool reverseBtoA(SqList& A, int m, int n){
+    reverseNum(A,0,m+n-1);
+    reverseNum(A,0,m-1);
+    reverseNum(A,m,m+n-1);
+    return true;
+}
+
+//8
+void BS(int arr[],int x){
+    int l = 0, r = arr.size() - 1;
+    while(l <= r){
+        int mid = (l + r) / 2;
+        if(arr[mid] < x){
+            l = mid + 1;
+        }else{
+            r = mid - 1;
+        }
+    }
+    if(arr[l] == x && l != r - 1){
+        int temp = arr[l+1];
+        arr[l] = arr[l+1];
+        arr[l+1] = temp;
+    }else{
+        for(int i = r; i >= l; i--){
+            arr[i+1] = arr[i];
+        }
+        arr[l] = x;
+    }
+}
+
+//9
+/*
+À„∑®ÀºœÎ£∫
+A [1,4,6,7,8,9]
+B [1,2,4,5,6,8]
+C [2,3,5,6,7,8]
+
+*/
+
+void findTheSame(int A[],int B[],int C[]){
+    int n;
+    vector<int> ans;
+    int i = 0, j = 0, k = 0;
+    int max_num = 0;
+    while(i < n && j < n && k < n){
+        int x = A[i] > B[j] ? A[i] : B[j];
+        max_num = x > C[k] ? x : C[k];
+
+        while(i < n && A[i] < max_num){
+            i++;
+        }
+        while(j < n && B[j] < max_num){
+            j++;
+        }
+        while(k < n && C[k] < max_num){
+            k++;
+        }
+        if(A[i] == B[j] && B[j] == C[k]){
+            ans.push_back(A[i]);
+            i++;
+            j++;
+            k++;
+        }
+        for(int p = 0; i < n; i++){
+            cout<<p<<endl;
+        }
+    }
+}
+
